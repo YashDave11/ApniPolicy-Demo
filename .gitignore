@@ -1,0 +1,10 @@
+# Recording material, not part of the deployed demo.
+VIDEO-SCRIPT.txt
+
+# Local verification and OS noise
+_probe.*
+_fav.*
+_s*.png
+Thumbs.db
+desktop.ini
+.DS_Store

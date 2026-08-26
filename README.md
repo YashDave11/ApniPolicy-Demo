@@ -15,6 +15,7 @@ Files:
 
 ```
 index.html            two nav bars, fifteen <section> tiles, phone markup per screen
+assets/favicon.svg    the mark: ink tile, white A, one bar — two shapes so it holds at 16px
 assets/tokens.css     :root tokens and typography utility classes, nothing else
 assets/styles.css     layout, tiles, nav bars, phone frame, in-phone components
 assets/constellation.js  the light-mode monochrome mesh background (canvas, no DOM reads)
