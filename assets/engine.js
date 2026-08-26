@@ -1,0 +1,287 @@
+(function (root) {
+  'use strict';
+
+  function formatINR(value) {
+    var n = Math.round(Number(value) || 0);
+    var sign = n < 0 ? '-' : '';
+    var digits = Math.abs(n).toString();
+    var out;
+    if (digits.length <= 3) {
+      out = digits;
+    } else {
+      var last3 = digits.slice(-3);
+      var rest = digits.slice(0, -3);
+      var groups = [];
+      while (rest.length > 2) {
+        groups.unshift(rest.slice(-2));
+        rest = rest.slice(0, -2);
+      }
+      if (rest.length > 0) {
+        groups.unshift(rest);
+      }
+      out = groups.join(',') + ',' + last3;
+    }
+    return '\u20B9' + sign + out;
+  }
+
+  function formatPct(ratio) {
+    var v = Math.round(ratio * 1000) / 10;
+    return (Number.isInteger(v) ? v.toFixed(0) : v.toFixed(1)) + '%';
+  }
+
+  function computeCoverage(input) {
+    var sumInsured = input.sumInsured;
+    var capPct = input.roomCapPct > 0 ? input.roomCapPct : 0;
+    var roomRatePerDay = input.roomRatePerDay || 0;
+    var days = input.days || 0;
+
+    var associated = input.associatedExpenses || 0;
+    var pharmacy = input.pharmacy || 0;
+    var implants = input.implants || 0;
+    var diagnostics = input.diagnostics || 0;
+    var icu = input.icu || 0;
+    var protectedOn = input.protectedHeadsApplied !== false;
+
+    var protectedTotal = pharmacy + implants + diagnostics + icu;
+
+    var eligiblePerDay = capPct > 0 ? sumInsured * (capPct / 100) : Infinity;
+    var coverageRatio =
+      capPct > 0 && roomRatePerDay > 0
+        ? Math.min(1, eligiblePerDay / roomRatePerDay)
+        : 1;
+
+    var roomBilled = roomRatePerDay * days;
+    var roomPayable = Math.min(roomRatePerDay, eligiblePerDay) * days;
+
+    var protectedPayable = protectedOn ? protectedTotal : protectedTotal * coverageRatio;
+    var associatedPayable = associated * coverageRatio;
+
+    var totalBilled = roomBilled + associated + protectedTotal;
+    var grossPayable = roomPayable + associatedPayable + protectedPayable;
+    var insurerPays = Math.min(grossPayable, sumInsured);
+    var shortfall = totalBilled - insurerPays;
+
+    var deductionLoss =
+      associated - associatedPayable +
+      (protectedOn ? 0 : protectedTotal - protectedPayable) +
+      roomBilled - roomPayable;
+    var sumInsuredLoss = Math.max(0, grossPayable - sumInsured);
+
+    return {
+      eligiblePerDay: eligiblePerDay,
+      coverageRatio: coverageRatio,
+      roomBilled: roomBilled,
+      roomPayable: roomPayable,
+      associated: associated,
+      protectedTotal: protectedTotal,
+      protectedPayable: protectedPayable,
+      associatedPayable: associatedPayable,
+      totalBilled: totalBilled,
+      grossPayable: grossPayable,
+      insurerPays: insurerPays,
+      shortfall: shortfall,
+      deductionLoss: deductionLoss,
+      sumInsuredLoss: sumInsuredLoss
+    };
+  }
+
+  function roomBySegments(segments, eligiblePerDay) {
+    var billed = 0;
+    var payable = 0;
+    for (var i = 0; i < segments.length; i++) {
+      var seg = segments[i];
+      billed += seg.rate * seg.days;
+      payable += Math.min(seg.rate, eligiblePerDay) * seg.days;
+    }
+    return { billed: billed, payable: payable };
+  }
+
+  var DEMO_CASE = {
+    sumInsured: 500000,
+    roomCapPct: 1,
+    roomRatePerDay: 8000,
+    days: 5,
+    associatedExpenses: 150000,
+    pharmacy: 40000,
+    implants: 0,
+    diagnostics: 0,
+    icu: 60000,
+    protectedHeadsApplied: true
+  };
+
+  function cloneMerge(overrides) {
+    var o = {};
+    for (var k in DEMO_CASE) {
+      o[k] = k in overrides ? overrides[k] : DEMO_CASE[k];
+    }
+    return o;
+  }
+
+  function approx(actual, expected) {
+    return Math.abs(actual - expected) < 0.000001;
+  }
+
+  function runSelfTest() {
+    var results = [];
+
+    function check(name, fn) {
+      try {
+        var failures = fn() || [];
+        results.push({ name: name, pass: failures.length === 0, detail: failures.join('; ') });
+      } catch (e) {
+        results.push({ name: name, pass: false, detail: String(e) });
+      }
+    }
+
+    function expect(label, actual, expected, fails) {
+      if (!approx(actual, expected)) {
+        fails.push(label + ' expected ' + expected + ', got ' + actual);
+      }
+    }
+
+    check('vector 1 - demo main case', function () {
+      var r = computeCoverage(DEMO_CASE);
+      var f = [];
+      expect('eligiblePerDay', r.eligiblePerDay, 5000, f);
+      expect('coverageRatio', r.coverageRatio, 0.625, f);
+      expect('roomBilled', r.roomBilled, 40000, f);
+      expect('roomPayable', r.roomPayable, 25000, f);
+      expect('associatedPayable', r.associatedPayable, 93750, f);
+      expect('protectedPayable', r.protectedPayable, 100000, f);
+      expect('totalBilled', r.totalBilled, 290000, f);
+      expect('insurerPays', r.insurerPays, 218750, f);
+      expect('shortfall', r.shortfall, 71250, f);
+      return f;
+    });
+
+    check('vector 2 - deck headline chain', function () {
+      var r = computeCoverage(cloneMerge({
+        days: 0,
+        pharmacy: 0,
+        icu: 0,
+        protectedHeadsApplied: false
+      }));
+      var f = [];
+      expect('eligiblePerDay', r.eligiblePerDay, 5000, f);
+      expect('coverageRatio', r.coverageRatio, 0.625, f);
+      expect('associatedPayable', r.associatedPayable, 93750, f);
+      expect('shortfall', r.shortfall, 56250, f);
+      return f;
+    });
+
+    check('vector 3 - room within the cap', function () {
+      var base = computeCoverage(DEMO_CASE);
+      var alt = computeCoverage(cloneMerge({ roomRatePerDay: 5000 }));
+      var f = [];
+      expect('coverageRatio', alt.coverageRatio, 1, f);
+      expect('totalBilled', alt.totalBilled, 275000, f);
+      expect('insurerPays', alt.insurerPays, 275000, f);
+      expect('shortfall', alt.shortfall, 0, f);
+      var saving = base.shortfall - alt.shortfall;
+      var deductionReversed =
+        (base.associated - base.associatedPayable) -
+        (alt.associated - alt.associatedPayable);
+      var roomChargeDelta = base.roomBilled - alt.roomBilled;
+      expect('saving', saving, 71250, f);
+      expect('deductionReversed', deductionReversed, 56250, f);
+      expect('roomChargeDelta', roomChargeDelta, 15000, f);
+      expect('decomposition sums', saving, deductionReversed + roomChargeDelta, f);
+      return f;
+    });
+
+    check('vector 4 - protected heads are load-bearing', function () {
+      var on = computeCoverage(DEMO_CASE);
+      var off = computeCoverage(cloneMerge({ protectedHeadsApplied: false }));
+      var f = [];
+      expect('protectedPayable off', off.protectedPayable, 62500, f);
+      expect('carve-out worth', on.protectedPayable - off.protectedPayable, 37500, f);
+      return f;
+    });
+
+    check('vector 5 - sample B higher cap', function () {
+      var r = computeCoverage(cloneMerge({
+        sumInsured: 1000000,
+        roomCapPct: 2
+      }));
+      var f = [];
+      expect('eligiblePerDay', r.eligiblePerDay, 20000, f);
+      expect('coverageRatio', r.coverageRatio, 1, f);
+      expect('shortfall', r.shortfall, 0, f);
+      return f;
+    });
+
+    check('vector 6 - sum insured exhausted', function () {
+      var r = computeCoverage(cloneMerge({
+        sumInsured: 200000,
+        roomCapPct: 1,
+        roomRatePerDay: 4000,
+        days: 10,
+        associatedExpenses: 500000,
+        pharmacy: 0,
+        icu: 0,
+        protectedHeadsApplied: false
+      }));
+      var f = [];
+      expect('coverageRatio', r.coverageRatio, 0.5, f);
+      expect('grossPayable', r.grossPayable, 270000, f);
+      expect('insurerPays', r.insurerPays, 200000, f);
+      expect('totalBilled', r.totalBilled, 540000, f);
+      expect('shortfall', r.shortfall, 340000, f);
+      expect('sumInsuredLoss', r.sumInsuredLoss, 70000, f);
+      return f;
+    });
+
+    check('per-day segments - mid-stay room change', function () {
+      var s = roomBySegments(
+        [{ rate: 3000, days: 2 }, { rate: 8000, days: 3 }],
+        5000
+      );
+      var f = [];
+      expect('billed', s.billed, 30000, f);
+      expect('payable', s.payable, 21000, f);
+      return f;
+    });
+
+    check('formatINR - Indian lakh grouping', function () {
+      var f = [];
+      function eq(got, want) {
+        if (got !== want) { f.push('expected "' + want + '", got "' + got + '"'); }
+      }
+      eq(formatINR(500000), '\u20B95,00,000');
+      eq(formatINR(218750), '\u20B92,18,750');
+      eq(formatINR(71250), '\u20B971,250');
+      eq(formatINR(56250), '\u20B956,250');
+      eq(formatINR(290000), '\u20B92,90,000');
+      eq(formatINR(0), '\u20B90');
+      eq(formatINR(999), '\u20B9999');
+      eq(formatINR(12000000), '\u20B91,20,00,000');
+      return f;
+    });
+
+    var allPass = true;
+    for (var i = 0; i < results.length; i++) {
+      var t = results[i];
+      if (!t.pass) { allPass = false; }
+      root.console.log(
+        '[engine] ' + (t.pass ? 'PASS' : 'FAIL') + ' - ' + t.name + (t.pass ? '' : ' (' + t.detail + ')')
+      );
+    }
+    root.console.log('[engine] self-test ' + (allPass ? 'complete: all vectors pass' : 'complete: FAILURES above'));
+    return allPass;
+  }
+
+  var api = {
+    computeCoverage: computeCoverage,
+    roomBySegments: roomBySegments,
+    formatINR: formatINR,
+    formatPct: formatPct,
+    DEMO_CASE: DEMO_CASE,
+    runSelfTest: runSelfTest
+  };
+
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = api;
+  } else {
+    root.ApniPolicyEngine = api;
+  }
+})(typeof window !== 'undefined' ? window : globalThis);

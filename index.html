@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
+<title>Apni Policy — See your coverage. Know your path.</title>
+<meta name="description" content="A screen-by-screen walkthrough of Apni Policy, a coverage-aware admission intelligence prototype. Synthetic data, decision support only.">
+<link rel="stylesheet" href="assets/tokens.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<canvas id="constellation" aria-hidden="true"></canvas>
+
+<header>
+  <nav class="global-nav" aria-label="Global">
+    <button class="gn-wordmark" id="gn-home" type="button">Apni Policy</button>
+    <div class="gn-right">
+      <button class="btn-dark-utility" id="gn-restart" type="button">Restart demo</button>
+    </div>
+  </nav>
+  <div class="subnav">
+    <span class="subnav-phase t-tagline" id="subnav-phase">Get set up</span>
+    <div class="dots" role="group" aria-label="Demo screens">
+      <button class="dot" type="button" data-goto="0" aria-label="Screen 1 of 15, Arrive"></button>
+      <button class="dot" type="button" data-goto="1" aria-label="Screen 2 of 15, Register"></button>
+      <button class="dot" type="button" data-goto="2" aria-label="Screen 3 of 15, Verify"></button>
+      <button class="dot" type="button" data-goto="3" aria-label="Screen 4 of 15, Consent"></button>
+      <button class="dot" type="button" data-goto="4" aria-label="Screen 5 of 15, Who you are admitting"></button>
+      <button class="dot" type="button" data-goto="5" aria-label="Screen 6 of 15, Add the policy"></button>
+      <button class="dot" type="button" data-goto="6" aria-label="Screen 7 of 15, Reading it"></button>
+      <button class="dot" type="button" data-goto="7" aria-label="Screen 8 of 15, Confirm what we read"></button>
+      <button class="dot" type="button" data-goto="8" aria-label="Screen 9 of 15, Your policy in plain terms"></button>
+      <button class="dot" type="button" data-goto="9" aria-label="Screen 10 of 15, Choose a hospital"></button>
+      <button class="dot" type="button" data-goto="10" aria-label="Screen 11 of 15, Start an admission"></button>
+      <button class="dot" type="button" data-goto="11" aria-label="Screen 12 of 15, The verdict"></button>
+      <button class="dot" type="button" data-goto="12" aria-label="Screen 13 of 15, What to do now"></button>
+      <button class="dot" type="button" data-goto="13" aria-label="Screen 14 of 15, The journey"></button>
+      <button class="dot" type="button" data-goto="14" aria-label="Screen 15 of 15, Settlement"></button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<section class="tile tile--tile1 tile--dark" data-slug="01-arrive" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 01 — Arrive</p>
+      <h1 class="t-hero" id="s01-title">See your coverage.<br>Know your path.</h1>
+      <p class="lead t-lead">Know what your insurance will actually pay before you sign the admission form.</p>
+      <p class="body-copy t-body">Apni Policy reads an Indian health insurance policy the way a claims officer would, then runs the arithmetic of your admission through it — before anyone signs anything. What follows is the product itself, one screen at a time, carried on synthetic data.</p>
+      <div class="cta-row">
+        <button class="btn btn-primary" id="hero-start" type="button">Walk through it</button>
+        <button class="text-link-on-dark t-body" id="what-not-toggle" type="button" aria-expanded="false" aria-controls="what-not">What this is not</button>
+      </div>
+      <div class="disclosure" id="what-not" hidden>
+        <p>Decision support only. Apni Policy does not diagnose, does not replace your doctor, and does not give binding insurance advice. Every figure comes from a deterministic rules engine; every explanation is written by a language model and carries a verify notice. All data in this prototype is synthetic.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-launch">
+                <div class="p-launch-center">
+                  <span class="t-display-md" style="color:var(--ink)">Apni Policy</span>
+                  <span class="inphone-note">See your coverage. Know your path.</span>
+                  <button class="btn btn-primary" id="launch-start" type="button">Get started</button>
+                </div>
+                <div class="p-home-area">
+                  <p class="fine-legal">Built for the GE HealthCare Precision Care Challenge 2026 · Problem Statement 4 · synthetic data</p>
+                  <span class="p-home-bar" aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · not connected to any insurer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--canvas tile--phone-left" data-slug="02-register" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 02 — Register</p>
+      <h2 class="t-display-lg" id="s02-title">One field, because minutes matter</h2>
+      <p class="lead t-lead">Registration asks for a mobile number and nothing else.</p>
+      <p class="body-copy t-body">A caregiver at an admission desk has minutes, not patience. A password invented today is a dead end six months from now, on a borrowed phone, at the worst possible moment. So the account begins with a number and a code — nothing to remember, nothing to recover.</p>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>No account is created here. A number alone is not a consent, and nothing is stored until screen 04. The number exists so that a one-time code can be sent, and for nothing else.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">Your mobile number</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body has-cta">
+                  <div class="stack">
+                    <div>
+                      <label class="field-label" for="reg-mobile">Mobile number</label>
+                      <div class="prefix-wrap">
+                        <span class="prefix num" aria-hidden="true">+91</span>
+                        <input class="input num" id="reg-mobile" type="tel" inputmode="numeric" autocomplete="tel-national" maxlength="10" placeholder="98765 43210" aria-label="Ten-digit mobile number">
+                      </div>
+                    </div>
+                    <p class="inphone-note">We use this to send a one-time code. We do not use it for anything else.</p>
+                  </div>
+                </div>
+                <div class="p-cta">
+                  <button class="btn btn-primary" id="reg-send" type="button" disabled>Send code</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · not connected to any insurer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--parchment" data-slug="03-verify" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 03 — Verify</p>
+      <h2 class="t-display-lg" id="s03-title">A code instead of a password</h2>
+      <p class="lead t-lead">Six digits, sent to the number you gave.</p>
+      <p class="body-copy t-body">The caregiver may be using a borrowed phone at the hospital. A password they set once and forgot is a dead end at the worst possible moment; a code that arrives now is not. Verification proves the number without asking anyone to remember anything.</p>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">Enter the code</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body has-cta">
+                  <div class="stack">
+                    <p class="inphone-note-strong" id="otp-group-label">Enter the 6-digit code</p>
+                    <div class="otp-row" role="group" aria-labelledby="otp-group-label">
+                      <input class="otp-box num" id="otp-1" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1 of 6">
+                      <input class="otp-box num" id="otp-2" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2 of 6">
+                      <input class="otp-box num" id="otp-3" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3 of 6">
+                      <input class="otp-box num" id="otp-4" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4 of 6">
+                      <input class="otp-box num" id="otp-5" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5 of 6">
+                      <input class="otp-box num" id="otp-6" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6 of 6">
+                    </div>
+                    <p class="inphone-note">Sent to +91 98••• ••210 · <button class="text-link" type="button" id="change-number">Change number</button></p>
+                    <p style="margin-top:8px"><button type="button" class="resend fine-legal" id="resend" disabled>Resend available in 30s</button></p>
+                  </div>
+                </div>
+                <div class="p-cta">
+                  <button class="btn btn-primary" id="otp-continue" type="button" disabled>Continue</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · any six-digit code is accepted in this demo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--tile2 tile--dark" data-slug="04-consent" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 04 — Consent</p>
+      <h2 class="t-display-lg" id="s04-title">Consent, asked for properly</h2>
+      <p class="lead t-lead">Three purposes, stated one by one. None pre-ticked.</p>
+      <p class="body-copy t-body">Under the Digital Personal Data Protection Act, 2023, consent must be free, specific, informed, unconditional and unambiguous, given for a stated purpose, and as easy to withdraw as it was to give. Most products bundle everything into one switch and call it consent. This screen does not.</p>
+      <p class="body-copy t-body">The third purpose — keeping the policy on file — is genuinely optional. Decline it and everything that follows still works.</p>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>Where flows are ABHA-linked, consent artefacts route through the DPDP consent manager. This prototype models the artefact — purposes, granularity, withdrawal — without a live connection.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">What we need, and why</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body has-cta">
+                  <div class="util-card">
+                    <div class="card-row consent-item">
+                      <input type="checkbox" id="consent-read">
+                      <label class="ci-text" for="consent-read">
+                        <span class="ci-label">Read your policy document</span>
+                        <span class="ci-desc" style="display:block">To extract limits and exclusions.</span>
+                      </label>
+                    </div>
+                    <div class="card-row consent-item">
+                      <input type="checkbox" id="consent-check">
+                      <label class="ci-text" for="consent-check">
+                        <span class="ci-label">Check eligibility with your insurer or TPA</span>
+                        <span class="ci-desc" style="display:block">To answer before you are admitted, not after.</span>
+                      </label>
+                    </div>
+                    <div class="card-row consent-item">
+                      <input type="checkbox" id="consent-keep">
+                      <label class="ci-text" for="consent-keep">
+                        <span class="ci-label">Keep your policy on file for this admission</span>
+                        <span class="ci-desc" style="display:block">Optional. Deleted 90 days after discharge, or immediately on request.</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="consent-foot">
+                    <p class="fine-legal">Data fiduciary for this prototype: Apni Policy Demo (fictional).</p>
+                    <p style="margin-top:8px"><button class="text-link" type="button" id="withdraw-consent">Withdraw consent at any time</button></p>
+                    <p class="fine-legal" id="withdraw-msg" hidden></p>
+                  </div>
+                </div>
+                <div class="p-cta">
+                  <button class="btn btn-primary" id="consent-continue" type="button" disabled>Continue</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · not connected to any insurer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--canvas tile--phone-left" data-slug="05-patient" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 05 — The patient</p>
+      <h2 class="t-display-lg" id="s05-title">You are admitting someone</h2>
+      <p class="lead t-lead">The app asks about the relationship before it asks about the policy.</p>
+      <p class="body-copy t-body">The person standing at the desk is rarely the patient. They are a son, a daughter, a spouse — someone answering questions on behalf of a person who is being wheeled somewhere else. Every screen that follows addresses them, in the words their relationship calls for.</p>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>The relationship changes the wording the model writes later. An adult child admitting a parent reads different next steps than a patient admitting herself.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">Who is being admitted?</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body has-cta">
+                  <div class="stack">
+                    <div>
+                      <span class="field-label" id="rel-label">Relationship to you</span>
+                      <div class="chip-row" role="group" aria-labelledby="rel-label" id="rel-chips">
+                        <button class="chip" type="button" data-rel="Myself" aria-pressed="false">Myself</button>
+                        <button class="chip" type="button" data-rel="Parent" aria-pressed="true">Parent</button>
+                        <button class="chip" type="button" data-rel="Spouse" aria-pressed="false">Spouse</button>
+                        <button class="chip" type="button" data-rel="Child" aria-pressed="false">Child</button>
+                        <button class="chip" type="button" data-rel="Someone else" aria-pressed="false">Someone else</button>
+                      </div>
+                    </div>
+                    <div>
+                      <label class="field-label" for="pat-name">Patient's name</label>
+                      <input class="input" id="pat-name" type="text" autocomplete="off" placeholder="Full name">
+                    </div>
+                    <div>
+                      <label class="field-label" for="pat-age">Age</label>
+                      <input class="input num" id="pat-age" type="number" inputmode="numeric" min="0" max="120" placeholder="Years">
+                    </div>
+                    <div>
+                      <label class="field-label" for="pat-abha">ABHA ID <span class="inphone-note">(optional)</span></label>
+                      <input class="input" id="pat-abha" type="text" autocomplete="off" placeholder="14-digit ABHA address or number">
+                      <p style="margin-top:8px"><button class="text-link" type="button" id="abha-toggle" aria-expanded="false" aria-controls="abha-note">What is this?</button></p>
+                      <p class="inphone-note" id="abha-note" hidden>ABHA is the health account identifier under the Ayushman Bharat Digital Mission. Leaving it blank costs you nothing in this prototype.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-cta">
+                  <button class="btn btn-primary" id="patient-continue" type="button">Continue</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · not connected to any insurer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--parchment" data-slug="06-policy" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 06 — Your policy</p>
+      <h2 class="t-display-lg" id="s06-title">The policy is the only input</h2>
+      <p class="lead t-lead">And almost no family can read one.</p>
+      <p class="body-copy t-body">A forty-page wording in nine-point type is where the room-rent cap hides. It is written into the schedule, applied only at settlement, and met for the first time as a surprise at discharge. Bring the document; the reading is done for you.</p>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>The file never leaves the browser in this prototype. The three samples are synthetic wordings written for the demo. Sample A — ₹5,00,000 with a 1% room cap — is the case the rest of the walkthrough is built on; Samples B and C recompute every figure downstream, and C carries no cap at all.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">Add your policy</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body has-cta">
+                  <div class="stack">
+                    <button class="drop-zone" id="drop-zone" type="button" aria-label="Drop your policy PDF here, or choose a file">
+                      <svg width="28" height="28" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="2.75" width="11" height="14.5" rx="2"/><path d="M7.5 7.25h5M7.5 10h5M7.5 12.75h3"/></svg>
+                      <span class="inphone-note-strong">Drop your policy PDF here</span>
+                      <span class="inphone-note">or choose a file</span>
+                    </button>
+                    <input type="file" id="policy-file" accept=".pdf,.txt,application/pdf,text/plain" hidden>
+                    <p class="file-chosen" id="file-chosen" hidden>
+                      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg>
+                      <span id="file-chosen-name"></span>
+                    </p>
+                    <div class="divider-or t-caption">or use a sample</div>
+                    <div class="chip-row" role="group" aria-label="Sample policies" id="sample-chips">
+                      <button class="chip" type="button" data-sample="A" aria-pressed="true">Sample A — ₹5,00,000, 1% room cap</button>
+                      <button class="chip" type="button" data-sample="B" aria-pressed="false">Sample B — ₹10,00,000, 2% room cap</button>
+                      <button class="chip" type="button" data-sample="C" aria-pressed="false">Sample C — ₹3,00,000, no room cap</button>
+                    </div>
+                    <p class="fine-legal">Samples are synthetic wordings written for this demo. Nothing is uploaded anywhere.</p>
+                  </div>
+                </div>
+                <div class="p-cta">
+                  <button class="btn btn-primary" id="policy-continue" type="button">Read my policy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · not connected to any insurer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--tile1 tile--dark" data-slug="07-reading" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 07 — Reading it</p>
+      <h2 class="t-display-lg" id="s07-title">The model reads. The engine waits.</h2>
+      <p class="lead t-lead">Prose becomes typed fields — caps, sub-limits, waiting periods, exclusions.</p>
+      <p class="body-copy t-body">The language model's job ends where deciding begins. It converts wording into structured fields, and stops. It does not compute eligibility, does not round numbers, does not decide claims. Every field it produces is shown for confirmation on the next screen, before a single rupee is calculated.</p>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>Extraction is confidence-scored. A field below threshold is flagged for the reader rather than guessed — two such flags appear on the next screen. An unconfirmed schema cannot reach the engine.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">Reading your policy</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body has-cta">
+                  <ul class="extract-list" id="extract-list">
+                    <li class="pending"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span>Sum insured</span></li>
+                    <li class="pending"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span>Room rent limit</span></li>
+                    <li class="pending"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span>ICU limit</span></li>
+                    <li class="pending"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span>Co-pay</span></li>
+                    <li class="pending"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span>Waiting periods</span></li>
+                    <li class="pending"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span>Permanent exclusions</span></li>
+                    <li class="pending"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span>Sub-limits by procedure</span></li>
+                  </ul>
+                  <div class="progress-track" role="progressbar" aria-labelledby="extract-progress-label" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="extract-progress">
+                    <div class="progress-fill" id="extract-fill"></div>
+                  </div>
+                  <p class="inphone-note" id="extract-progress-label">You will confirm every field before anything is calculated.</p>
+                  <p style="margin-top:12px"><button class="text-link" type="button" id="extract-skip">Skip</button></p>
+                </div>
+                <div class="p-cta">
+                  <button class="btn btn-primary" id="extract-continue" type="button" disabled>Confirm what we read</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · extraction simulated locally</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--canvas tile--phone-left" data-slug="08-confirm" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 08 — Confirm</p>
+      <h2 class="t-display-lg" id="s08-title">Check what the model read</h2>
+      <p class="lead t-lead">Extraction is the one place a model touches this pipeline, so it is the one place the product asks.</p>
+      <p class="body-copy t-body">Low-confidence fields are surfaced, not buried. Two rows carry a flag, each with the reason. Edit anything that looks wrong; the corrected value is what the engine will use, and nothing downstream runs until you confirm.</p>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>The schema is typed and validated before the engine sees it. An unconfirmed schema cannot reach the engine — confirmation here is structural, not decorative.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">Does this look right?</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body has-cta">
+                  <div class="util-card" id="confirm-card">
+                    <div class="card-row confirm-row" data-field="sumInsured">
+                      <div class="confirm-main">
+                        <span class="inphone-note-strong">Sum insured</span>
+                        <p class="confirm-value num"></p>
+                      </div>
+                      <button class="confirm-edit" type="button">Edit</button>
+                    </div>
+                    <div class="card-row confirm-row" data-field="roomCapPct">
+                      <div class="confirm-main">
+                        <span class="inphone-note-strong">Room rent limit</span>
+                        <p class="confirm-value"></p>
+                        <p class="confirm-flag">Check this</p>
+                        <p class="confirm-reason">The wording gives this as a percentage, not a figure.</p>
+                      </div>
+                      <button class="confirm-edit" type="button">Edit</button>
+                    </div>
+                    <div class="card-row confirm-row" data-field="icuCapPct">
+                      <div class="confirm-main">
+                        <span class="inphone-note-strong">ICU limit</span>
+                        <p class="confirm-value"></p>
+                        <p class="confirm-flag">Check this</p>
+                        <p class="confirm-reason">The wording gives this as a percentage, not a figure.</p>
+                      </div>
+                      <button class="confirm-edit" type="button">Edit</button>
+                    </div>
+                    <div class="card-row confirm-row" data-field="copay">
+                      <div class="confirm-main">
+                        <span class="inphone-note-strong">Co-pay</span>
+                        <p class="confirm-value"></p>
+                      </div>
+                      <button class="confirm-edit" type="button">Edit</button>
+                    </div>
+                    <div class="card-row confirm-row" data-field="initialWaiting">
+                      <div class="confirm-main">
+                        <span class="inphone-note-strong">Initial waiting period</span>
+                        <p class="confirm-value"></p>
+                      </div>
+                      <button class="confirm-edit" type="button">Edit</button>
+                    </div>
+                    <div class="card-row confirm-row" data-field="pedWaiting">
+                      <div class="confirm-main">
+                        <span class="inphone-note-strong">Pre-existing conditions</span>
+                        <p class="confirm-value"></p>
+                      </div>
+                      <button class="confirm-edit" type="button">Edit</button>
+                    </div>
+                    <div class="card-row confirm-row" data-field="roomCategory">
+                      <div class="confirm-main">
+                        <span class="inphone-note-strong">Room category</span>
+                        <p class="confirm-value"></p>
+                      </div>
+                      <button class="confirm-edit" type="button">Edit</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-cta">
+                  <button class="btn btn-primary" id="confirm-continue" type="button">Yes — these are right</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · edits recalculate every figure downstream</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--parchment" data-slug="09-plain-terms" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 09 — In plain terms</p>
+      <h2 class="t-display-lg" id="s09-title">Your policy, translated</h2>
+      <p class="lead t-lead">The first derived number appears — computed, not copied.</p>
+      <p class="body-copy t-body">The eligible daily room rent is not written anywhere in the policy. It is 1% of ₹5,00,000, and the engine computes it. That distinction is the architecture in miniature: sentences are model-written, figures are engine-computed, and nothing crosses.</p>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>Every sentence on this screen is model output. Every figure is engine output. The boundary notice travels with the sentences wherever they go.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">Your policy</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body has-cta">
+                  <div class="hero-fig">
+                    <p class="fig" id="derived-fig">₹5,000</p>
+                    <p class="fig-cap" id="derived-cap">eligible room rent, per day</p>
+                    <p class="fig-derived" id="derived-note">derived — 1% of ₹5,00,000</p>
+                  </div>
+                  <div class="util-card">
+                    <div class="card-row">
+                      <p class="plain-head">What is covered</p>
+                      <p class="plain-body">Hospitalisation for illness or injury, including surgery, room charges up to the applicable limit, and the four heads protected under IRDAI's 2020 exclusion standards — pharmacy, implants and devices, diagnostics, and ICU.</p>
+                      <p class="model-notice">This is an explanation, not a decision. Verify with your hospital or insurer.</p>
+                    </div>
+                    <div class="card-row">
+                      <p class="plain-head">What waits</p>
+                      <p class="plain-body">Thirty days for any illness from the start date, and thirty-six months for conditions you already had. Accidents are covered from day one.</p>
+                      <p class="model-notice">This is an explanation, not a decision. Verify with your hospital or insurer.</p>
+                    </div>
+                    <div class="card-row">
+                      <p class="plain-head">What is never covered</p>
+                      <p class="plain-body">Cosmetic procedures, self-inflicted injury, treatment outside India, and experimental therapy.</p>
+                      <p class="model-notice">This is an explanation, not a decision. Verify with your hospital or insurer.</p>
+                    </div>
+                  </div>
+                  <p style="margin-top:14px"><button class="text-link" type="button" id="wording-toggle" aria-expanded="false" aria-controls="wording">See the exact wording</button></p>
+                  <div class="extract" id="wording" hidden>Section III.1 — Room Rent: eligible room charges shall not exceed one percent (1%) of the Sum Insured per day. Expenses associated with room rent exceeding this limit shall be payable in the same proportion.
+Section III.4 — the proportionate deduction shall not apply to pharmacy, implants and devices, diagnostics, or intensive care charges.
+Schedule — Sum Insured: INR 5,00,000. Co-pay: nil. Initial waiting period: 30 days. Pre-existing diseases: 36 months.</div>
+                </div>
+                <div class="p-cta">
+                  <button class="btn btn-primary" id="plain-continue" type="button">Start an admission</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · explanations are model-written, figures engine-computed</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--parchment" data-slug="10-hospital" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 10 — The hospital</p>
+      <h2 class="t-display-lg">Where you are admitted is a coverage decision</h2>
+      <p class="lead t-lead">Same procedure, same policy, four different settlements.</p>
+      <p class="body-copy t-body">The room-rent cap is a percentage of the sum insured, not of the bill — so the cap is fixed while the room rate is not. On a ₹5,00,000 policy capped at 1%, a ₹5,000 room is eligible in full and nothing is deducted. A ₹12,000 room makes 58% of every associated medical expense yours as well, because the same ratio is applied to them. The hospital is the last variable still open to you at the admission desk, which makes it the one worth showing first.</p>
+      <p class="body-copy t-body">Choose one below. The rate travels with you into the estimate, the verdict and the settlement — every figure on the screens after this is computed from whatever you pick here.</p>
+      <div class="behind-glass">
+        <p class="bg-title">What this screen is not</p>
+        <p>This is a walkthrough of how we intend the product to work, and this screen is the thinnest part of it. There is no live search behind the list. The four hospitals are invented and so are their tariffs; none of it has been near a real network file.</p>
+        <p>The built product would read the insurer's empanelment list and the hospital's published rate card, then rank what is reachable by what it would actually cost you. The demo shows the shape of that decision with numbers we control, so every rupee downstream can be checked by hand.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">Choose a hospital</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body has-cta">
+                  <p class="inphone-note" id="hosp-intro">Cardiac admission · room rate is per day, as published by the hospital.</p>
+                  <div class="hosp-list" role="group" aria-labelledby="hosp-intro" id="hosp-list">
+                    <button class="hosp" type="button" data-hosp="specimen-multi" aria-pressed="false">
+                      <span class="hosp-mark" aria-hidden="true"></span>
+                      <span class="hosp-main">
+                        <span class="hosp-name">Specimen Multispeciality</span>
+                        <span class="hosp-meta">Pune · 6 km · cashless</span>
+                      </span>
+                      <span class="hosp-rate num">₹5,000<span class="hosp-unit">/day</span></span>
+                    </button>
+                    <button class="hosp" type="button" data-hosp="example-city" aria-pressed="false">
+                      <span class="hosp-mark" aria-hidden="true"></span>
+                      <span class="hosp-main">
+                        <span class="hosp-name">Example City Hospital</span>
+                        <span class="hosp-meta">Nashik · 61 km · reimbursement only</span>
+                      </span>
+                      <span class="hosp-rate num">₹6,500<span class="hosp-unit">/day</span></span>
+                    </button>
+                    <button class="hosp" type="button" data-hosp="sample-general" aria-pressed="true">
+                      <span class="hosp-mark" aria-hidden="true"></span>
+                      <span class="hosp-main">
+                        <span class="hosp-name">Sample General Hospital</span>
+                        <span class="hosp-meta">Pune · 3 km · cashless</span>
+                      </span>
+                      <span class="hosp-rate num">₹8,000<span class="hosp-unit">/day</span></span>
+                    </button>
+                    <button class="hosp" type="button" data-hosp="placeholder-inst" aria-pressed="false">
+                      <span class="hosp-mark" aria-hidden="true"></span>
+                      <span class="hosp-main">
+                        <span class="hosp-name">Placeholder Heart Institute</span>
+                        <span class="hosp-meta">Pune · 11 km · cashless</span>
+                      </span>
+                      <span class="hosp-rate num">₹12,000<span class="hosp-unit">/day</span></span>
+                    </button>
+                  </div>
+                  <p class="fine-legal" style="margin-top:14px">A synthetic list, not a network lookup. Four invented hospitals with invented tariffs, shown so the arithmetic ahead has something to stand on.</p>
+                </div>
+                <div class="p-cta">
+                  <button class="btn btn-primary" id="hospital-continue" type="button">Use this hospital</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic hospitals · the rate you pick drives every figure after this</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--canvas tile--phone-left" data-slug="11-admission" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 11 — The admission</p>
+      <h2 class="t-display-lg" id="s10-title">Before the form is signed</h2>
+      <p class="lead t-lead">Timing dominates outcome. The earlier the check, the larger the saving.</p>
+      <p class="body-copy t-body">The best published evidence for acting early comes from outside India. A Validation Institute audit of Alight Solutions' advocacy programme — 713,571 cases — found 21.3% average savings, rising to 27.9% when the member engaged before their first provider visit, against 13.7% afterwards. That is someone else's validated result, cited because it is the argument for sitting at the admission desk rather than the discharge counter.</p>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>The estimate below is the hospital's, not ours. The engine rebuilds it from its parts — room, associated expenses, protected heads — so the settlement arithmetic can be shown line by line on the next screen.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">About this admission</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body has-cta">
+                  <div class="stack">
+                    <div>
+                      <label class="field-label" for="adm-hospital">Hospital</label>
+                      <input class="input" id="adm-hospital" type="text" value="Sample General Hospital" readonly>
+                      <p class="inphone-note" style="margin-top:6px">Carried from your choice on the previous screen. <button class="text-link" type="button" data-goto-slug="10-hospital">Change</button></p>
+                    </div>
+                    <div>
+                      <label class="field-label" for="adm-city">City</label>
+                      <input class="input" id="adm-city" type="text" placeholder="City" readonly>
+                    </div>
+                    <div>
+                      <span class="field-label" id="proc-label">Planned procedure</span>
+                      <div class="chip-row" role="group" aria-labelledby="proc-label" id="proc-chips">
+                        <button class="chip" type="button" data-proc="Cardiac" aria-pressed="true">Cardiac</button>
+                        <button class="chip" type="button" data-proc="Orthopaedic" aria-pressed="false">Orthopaedic</button>
+                        <button class="chip" type="button" data-proc="General surgery" aria-pressed="false">General surgery</button>
+                        <button class="chip" type="button" data-proc="Maternity" aria-pressed="false">Maternity</button>
+                      </div>
+                    </div>
+                    <div>
+                      <span class="field-label" id="roomcat-label">Room category offered</span>
+                      <div class="chip-row" role="group" aria-labelledby="roomcat-label" id="roomcat-chips">
+                        <button class="chip" type="button" data-roomcat="Shared" aria-pressed="false">Shared</button>
+                        <button class="chip" type="button" data-roomcat="Single private" aria-pressed="true">Single private</button>
+                        <button class="chip" type="button" data-roomcat="Deluxe" aria-pressed="false">Deluxe</button>
+                      </div>
+                    </div>
+                    <div>
+                      <label class="field-label" for="adm-rate">Room rate per day</label>
+                      <input class="input num" id="adm-rate" type="number" inputmode="numeric" min="500" step="100" value="8000">
+                    </div>
+                    <div>
+                      <label class="field-label" for="adm-days">Expected length of stay</label>
+                      <input class="input num" id="adm-days" type="number" inputmode="numeric" min="1" max="60" value="5">
+                    </div>
+                    <div class="summary-row">
+                      <span class="summary-label">Hospital's estimate</span>
+                      <span class="summary-value num" id="adm-estimate">₹2,90,000</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="p-cta">
+                  <button class="btn btn-primary" id="admission-check" type="button">Check my coverage</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · estimate rebuilt by the rules engine</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--tile1 tile--dark" data-slug="12-verdict" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 12 — The verdict</p>
+      <h2 class="t-display-lg" id="s11-title">The room-rent trap, made visible</h2>
+      <p class="lead t-lead">Most Indian policies cap the eligible room at a percentage of the sum insured per day — commonly 1%.</p>
+      <p class="body-copy t-body">Bill a room above the cap and the insurer does not just trim the room charge. It reduces the room and a defined class of associated medical expenses by the same ratio. IRDAI's 2020 standards carve four heads out of that deduction — pharmacy, implants, diagnostics and ICU. Because the whole thing is arithmetic, it can be computed exactly, in advance.</p>
+      <p class="body-copy t-body">Break it yourself. Drag the room rate and watch the phone recompute.</p>
+      <div class="ctrl-group" aria-label="Coverage calculator">
+        <div class="ctrl">
+          <label class="ctrl-label" for="v-room">Room rate per day</label>
+          <input type="range" id="v-room" min="1000" max="25000" step="500" value="8000">
+          <input class="ctrl-num num" id="v-room-n" type="number" min="1000" max="25000" step="500" value="8000" aria-label="Room rate per day, in rupees">
+        </div>
+        <div class="ctrl">
+          <label class="ctrl-label" for="v-si">Sum insured</label>
+          <input type="range" id="v-si" min="100000" max="5000000" step="50000" value="500000">
+          <input class="ctrl-num num" id="v-si-n" type="number" min="100000" max="5000000" step="50000" value="500000" aria-label="Sum insured, in rupees">
+        </div>
+        <div class="ctrl">
+          <label class="ctrl-label" for="v-cap">Room cap %</label>
+          <input type="range" id="v-cap" min="0.5" max="2" step="0.1" value="1">
+          <input class="ctrl-num num" id="v-cap-n" type="number" min="0.5" max="2" step="0.1" value="1" aria-label="Room rent cap, percent of sum insured per day">
+        </div>
+        <div class="ctrl">
+          <label class="ctrl-label" for="v-days">Length of stay</label>
+          <input type="range" id="v-days" min="1" max="30" step="1" value="5">
+          <input class="ctrl-num num" id="v-days-n" type="number" min="1" max="30" step="1" value="5" aria-label="Length of stay, in days">
+        </div>
+        <div class="ctrl-toggle">
+          <input type="checkbox" class="switch" id="v-protected" checked>
+          <label class="ctrl-label" for="v-protected">Apply IRDAI 2020 protected heads</label>
+        </div>
+        <p class="ctrl-note" id="v-cap-note" hidden>This policy has no room-rent cap. The clause does not apply, so the slider is switched off.</p>
+        <div>
+          <button class="btn-secondary-on-dark" id="v-reset" type="button">Reset to the worked case</button>
+        </div>
+      </div>
+      <div class="vh" aria-live="polite" id="v-live"></div>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>Every rupee here comes from a deterministic rules engine — the same code path the settlement screen runs. No model output is ever treated as a number.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <span class="p-edge" aria-hidden="true"></span>
+                <span class="p-title t-tagline">What your insurance will pay</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body">
+                  <div class="verdict-block">
+                    <div class="v-pair">
+                      <p class="v-fig" id="v-insurer">₹2,18,750</p>
+                      <p class="v-cap">your insurer pays</p>
+                    </div>
+                    <div class="v-pair">
+                      <p class="v-fig-md" id="v-you">₹71,250</p>
+                      <p class="v-cap">you pay</p>
+                    </div>
+                  </div>
+                  <div class="ratio-strip">
+                    <div class="ratio-track"><div class="ratio-fill" id="ratio-fill"></div></div>
+                    <p class="ratio-label" id="ratio-label">62.5% coverage ratio</p>
+                    <p class="ratio-note" id="ratio-note">₹5,000 eligible ÷ ₹8,000 billed</p>
+                  </div>
+                  <table class="settle-table">
+                    <thead>
+                      <tr><th scope="col">Settlement</th><th scope="col">Billed</th><th scope="col">Insurer pays</th><th scope="col">You pay</th></tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>Room</td><td id="c-room-b"></td><td id="c-room-p"></td><td id="c-room-y"></td></tr>
+                      <tr><td>Associated medical expenses</td><td id="c-assoc-b"></td><td id="c-assoc-p"></td><td id="c-assoc-y"></td></tr>
+                      <tr><td>Protected heads</td><td id="c-prot-b"></td><td id="c-prot-p"></td><td id="c-prot-y"></td></tr>
+                    </tbody>
+                    <tfoot>
+                      <tr><td>Total</td><td id="c-total-b"></td><td id="c-total-p"></td><td id="c-total-y"></td></tr>
+                    </tfoot>
+                  </table>
+                  <div class="callout">
+                    <p id="callout-text"></p>
+                  </div>
+                  <p class="fine-legal" style="margin-top:12px">This is an explanation, not a decision. Verify with your hospital or insurer. Figures recomputed live by the rules engine.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · not connected to any insurer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--canvas tile--phone-left" data-slug="13-next-steps" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 13 — What to do now</p>
+      <h2 class="t-display-lg" id="s12-title">A number, then three moves</h2>
+      <p class="lead t-lead">Every recommendation carries its rupee consequence, ranked by the engine.</p>
+      <p class="body-copy t-body">A gap the family cannot act on is just anxiety with decimals. Each card states the action, the reason it works, and the rupees it is worth at this exact admission — computed from the same engine call as the verdict, so it moves when the verdict moves.</p>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>The first card's figure is recomputed from the same engine call as screen 11. Change the room-rate slider there and this number moves. Nothing on this screen is hard-coded.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">Three things you can do</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body">
+                  <div class="util-card action-card">
+                    <div class="action-head">
+                      <p class="action-title" id="act1-title">Ask for a room at ₹5,000 a day or less</p>
+                      <p class="action-impact num" id="act1-impact">₹71,250</p>
+                    </div>
+                    <p class="action-why">Closes the whole gap at a stroke: at or under the eligible rate, no proportionate deduction can arise.</p>
+                    <p class="action-split" id="act1-split">₹56,250 is the deduction disappearing · ₹15,000 is the lower room charge itself</p>
+                  </div>
+                  <div class="util-card action-card">
+                    <div class="action-head">
+                      <p class="action-title">Ask for an itemised estimate, not a package rate</p>
+                      <p class="action-impact">varies</p>
+                    </div>
+                    <p class="action-why">A package folds protected heads into one line. Heads that cannot be separated cannot be carved out before the ratio is applied.</p>
+                  </div>
+                  <div class="util-card action-card">
+                    <div class="action-head">
+                      <p class="action-title">Confirm the pre-authorisation request has been sent</p>
+                      <p class="action-impact">at risk</p>
+                    </div>
+                    <p class="action-why">Under IRDAI's Master Circular of May 2024, the insurer must decide a cashless pre-authorisation within 1 hour and authorise discharge within 3 hours; delay costs come from the insurer's shareholder funds, not yours.</p>
+                    <p class="action-clock">
+                      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="7.25"/><path d="M10 6v4.25l2.75 1.75"/></svg>
+                      <span class="num">Requested 09:12 · decision due 10:12</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · impacts recomputed by the rules engine</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--parchment" data-slug="14-journey" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 14 — Through the stay</p>
+      <h2 class="t-display-lg" id="s13-title">Checked, then re-checked</h2>
+      <p class="lead t-lead">One pre-admission estimate is wrong the moment anything changes.</p>
+      <p class="body-copy t-body">So coverage is re-checked rather than checked. Four checkpoints re-run the engine on whichever state changed — the ward actually offered, the diagnostics actually ordered, the implant actually used, the stay actually lengthened. And the deduction applies per day, at the rate actually billed, so a mid-stay change is computed by segment rather than retroactively across the whole stay.</p>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>The worked re-check below is computed, not narrated — the same segment arithmetic the engine exposes as its per-day routine. Change the policy upstream and the sentence changes with it.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <button class="p-back" type="button" data-back aria-label="Go back">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 4l-6 6 6 6"/></svg>
+                </button>
+                <span class="p-title t-tagline">Your admission</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body">
+                  <div class="timeline">
+                    <div class="tl-node">
+                      <span class="tl-dot is-done" aria-hidden="true"></span>
+                      <p class="tl-title">Admission</p>
+                      <p class="tl-line">Room category and cap re-checked against the ward actually offered.</p>
+                    </div>
+                    <div class="tl-node">
+                      <span class="tl-dot is-done" aria-hidden="true"></span>
+                      <p class="tl-title">Investigation</p>
+                      <p class="tl-line">Which diagnostics are payable, and which sit under the protected heads.</p>
+                    </div>
+                    <div class="tl-node">
+                      <span class="tl-dot is-now" aria-hidden="true"></span>
+                      <p class="tl-title">Procedure</p>
+                      <p class="tl-line">The implant line, and package-versus-itemised billing.</p>
+                    </div>
+                    <div class="tl-node">
+                      <span class="tl-dot is-future" aria-hidden="true"></span>
+                      <p class="tl-title">Recovery</p>
+                      <p class="tl-line">Length of stay, ICU days, and the discharge-summary items settlement will ask for.</p>
+                    </div>
+                  </div>
+                  <div class="notif">
+                    <p class="notif-title">Re-checked just now</p>
+                    <p class="notif-body" id="seg-sentence">Room changed on day 3 — shared (₹3,000) to private (₹8,000). Days 1–2 stay fully covered at 100%. Days 3–5 are covered at 62.5%. Room payable <span class="num">₹21,000</span> of <span class="num">₹30,000</span> billed.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · checkpoints recomputed by the rules engine</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tile tile--tile3 tile--dark" data-slug="15-settlement" hidden>
+  <div class="tile-inner">
+    <div class="narrative">
+      <p class="eyebrow">Step 15 — Settlement</p>
+      <h2 class="t-display-lg" id="s14-title">Close honestly</h2>
+      <p class="lead t-lead">What the prototype is, and what it is not.</p>
+      <p class="body-copy t-body">Synthetic policies only — three archetypes, modelled for this demo. No live NHCX sandbox connection, no clinical validation, and no measured outcomes. Every impact number this project quotes for itself is a proposed pilot target, not a result: the metric would be the share of tracked admissions whose out-of-pocket at settlement matches the pre-admission estimate within 5%, measured against a baseline cohort during the pilot.</p>
+      <p class="body-copy t-body">The national context, with sources. Of roughly ₹1.2 lakh crore of health claims filed in FY24, 71.3% was paid; ₹15,100 crore was disallowed at settlement and ₹10,937 crore repudiated (IRDAI Annual Report 2023-24). Out-of-pocket spending remains 39.4% of total health expenditure, down from 64.2% in 2013-14 (National Health Accounts 2021-22). The disallowance figure, not the repudiation figure, is the one families meet as a surprise: the claim was approved, and the money still did not arrive.</p>
+      <div class="behind-glass">
+        <p class="bg-title">Behind the glass</p>
+        <p>The comparison row in the phone is the engine run twice — once at admission time, once at settlement. Identical inputs produce identical rupees, which is the entire point.</p>
+      </div>
+    </div>
+    <div class="phone-col">
+      <div class="phone-slot">
+        <div class="phone-scale">
+          <div class="phone-frame product-shadow">
+            <div class="phone-screen">
+              <div class="p-status">
+                <span class="t-fine">9:41</span>
+                <span class="p-status-icons">
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M3 15v2M7 12v5M11 9v8M15 6v11"/></svg>
+                  <svg width="17" height="17" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M2.5 8a11 11 0 0 1 15 0"/><path d="M5.5 11a7 7 0 0 1 9 0"/><path d="M10 16h.01"/></svg>
+                  <svg width="20" height="17" viewBox="0 0 22 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6.5" width="15" height="7" rx="2"/><path d="M19.5 9.25v1.5"/><rect x="4" y="8.5" width="8" height="3" rx="1"/></svg>
+                </span>
+              </div>
+              <div class="p-topbar">
+                <span class="p-edge" aria-hidden="true"></span>
+                <span class="p-title t-tagline">Settled</span>
+                <span class="p-edge" aria-hidden="true"></span>
+              </div>
+              <div class="p-bodywrap">
+                <div class="p-body">
+                  <div class="settled-row">
+                    <span class="settled-label">Billed</span>
+                    <span class="settled-value num" id="f-billed">₹2,90,000</span>
+                  </div>
+                  <div class="settled-row">
+                    <span class="settled-label">Insurer paid</span>
+                    <span class="settled-value num" id="f-paid">₹2,18,750</span>
+                  </div>
+                  <div class="settled-row">
+                    <span class="settled-label">You paid</span>
+                    <span class="settled-value big num" id="f-you">₹71,250</span>
+                  </div>
+                  <div class="compare-row">
+                    <div class="compare-line"><span>Estimated before admission</span><span class="num" id="c-est">₹71,250</span></div>
+                    <div class="compare-line"><span>Actual at settlement</span><span class="num" id="c-act">₹71,250</span></div>
+                    <div class="compare-line"><span>Difference</span><span class="num" id="c-diff">₹0</span></div>
+                    <p class="fine-legal" style="margin-top:8px">Because the calculation was the same one the insurer runs.</p>
+                  </div>
+                  <p style="margin-top:14px"><button class="text-link" type="button" id="download-breakdown">Download the breakdown</button></p>
+                  <p class="fine-legal" style="margin-top:8px;color:var(--body-muted)">Not wired in this prototype.</p>
+                  <p class="fine-legal" style="margin-top:16px;color:var(--body-muted)">Synthetic data throughout. Decision support only — verify with your hospital or insurer.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="phone-caption t-legal">Interactive prototype · synthetic data · not connected to any insurer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<nav class="sticky-bar" aria-label="Demo steps">
+  <span class="sb-status t-body" id="sb-count">Screen 1 of 15 · Arrive</span>
+  <div class="sb-actions">
+    <button class="btn btn-secondary-pill btn-back-disabled" id="sb-back" type="button" aria-disabled="true">Back</button>
+    <button class="btn btn-primary" id="sb-next" type="button">Continue</button>
+  </div>
+</nav>
+
+<script src="assets/engine.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/constellation.js"></script>
+</body>
+</html>
