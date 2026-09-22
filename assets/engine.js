@@ -96,6 +96,41 @@
     return { billed: billed, payable: payable };
   }
 
+  // Multi-policy layering. A super-top-up pays the primary policy's residual
+  // shortfall above a fixed deductible, capped at its own sum insured. Nothing
+  // here re-derives the primary settlement; it only stacks a second source on
+  // top of a result computeCoverage() already produced.
+  function combinePolicies(primary, topUp) {
+    var residual = primary.shortfall;
+    var deductible = topUp && topUp.deductible > 0 ? topUp.deductible : 0;
+    var topUpCeiling = topUp && topUp.sumInsured > 0 ? topUp.sumInsured : 0;
+    var topUpEligible = Math.max(0, residual - deductible);
+    var topUpPays = Math.max(0, Math.min(topUpEligible, topUpCeiling));
+    var combinedInsurerPays = primary.insurerPays + topUpPays;
+    return {
+      primaryPays: primary.insurerPays,
+      topUpPays: topUpPays,
+      topUpDeductible: deductible,
+      combinedInsurerPays: combinedInsurerPays,
+      combinedShortfall: primary.totalBilled - combinedInsurerPays,
+      totalBilled: primary.totalBilled
+    };
+  }
+
+  // Clause-to-rupee lineage for the eligible daily room rent. Same arithmetic
+  // computeCoverage() uses for eligiblePerDay, exposed as its own step so the
+  // lineage screen can show where the figure comes from without re-deriving it
+  // anywhere else.
+  function roomRentLineage(sumInsured, capPct) {
+    var hasCap = capPct > 0;
+    return {
+      sumInsured: sumInsured,
+      capPct: hasCap ? capPct : 0,
+      hasCap: hasCap,
+      eligiblePerDay: hasCap ? sumInsured * (capPct / 100) : Infinity
+    };
+  }
+
   var DEMO_CASE = {
     sumInsured: 500000,
     roomCapPct: 1,
@@ -242,6 +277,34 @@
       return f;
     });
 
+    check('multi-policy - top-up pays above its deductible', function () {
+      var primary = computeCoverage(DEMO_CASE);
+      var c = combinePolicies(primary, { sumInsured: 500000, deductible: 50000 });
+      var f = [];
+      expect('primaryPays', c.primaryPays, 218750, f);
+      expect('topUpPays', c.topUpPays, 21250, f);
+      expect('combinedInsurerPays', c.combinedInsurerPays, 240000, f);
+      expect('combinedShortfall', c.combinedShortfall, 50000, f);
+      // A deductible larger than the gap leaves the top-up paying nothing.
+      var none = combinePolicies(primary, { sumInsured: 500000, deductible: 100000 });
+      expect('topUpPays under-deductible', none.topUpPays, 0, f);
+      expect('combinedShortfall under-deductible', none.combinedShortfall, 71250, f);
+      return f;
+    });
+
+    check('room-rent lineage - clause to rupee', function () {
+      var f = [];
+      var lin = roomRentLineage(500000, 1);
+      expect('eligiblePerDay', lin.eligiblePerDay, 5000, f);
+      if (lin.hasCap !== true) { f.push('hasCap expected true'); }
+      var noCap = roomRentLineage(300000, 0);
+      if (noCap.eligiblePerDay !== Infinity) {
+        f.push('no-cap eligiblePerDay expected Infinity, got ' + noCap.eligiblePerDay);
+      }
+      if (noCap.hasCap !== false) { f.push('no-cap hasCap expected false'); }
+      return f;
+    });
+
     check('formatINR - Indian lakh grouping', function () {
       var f = [];
       function eq(got, want) {
@@ -273,6 +336,8 @@
   var api = {
     computeCoverage: computeCoverage,
     roomBySegments: roomBySegments,
+    combinePolicies: combinePolicies,
+    roomRentLineage: roomRentLineage,
     formatINR: formatINR,
     formatPct: formatPct,
     DEMO_CASE: DEMO_CASE,
@@ -283,5 +348,7 @@
     module.exports = api;
   } else {
     root.ApniPolicyEngine = api;
+    // Log all coverage vectors to the console on page load.
+    runSelfTest();
   }
 })(typeof window !== 'undefined' ? window : globalThis);

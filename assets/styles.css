@@ -500,6 +500,10 @@ li.pending{visibility:hidden}
 }
 .callout p{font-size:14px;line-height:1.43;letter-spacing:-0.224px;color:var(--ink)}
 
+/* Screen 11 — clause-to-rupee lineage: existing card surfaces linked by a thin
+   ink chevron. Reuses tokens only; introduces no new colour, size or radius. */
+.lineage-arrow{display:flex;justify-content:center;color:var(--ink-48);padding:6px 0}
+
 /* Hospital picker (screen 10) — selection reads as an inked ring plus a filled
    mark, so the row's own text keeps its normal contrast when chosen. */
 .hosp-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}

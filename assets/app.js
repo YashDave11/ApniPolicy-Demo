@@ -11,15 +11,18 @@
     { slug: '04-consent', title: 'Consent', phase: 'Get set up' },
     { slug: '05-patient', title: 'Who you are admitting', phase: 'Get set up' },
     { slug: '06-policy', title: 'Add the policy', phase: 'Add your policy' },
-    { slug: '07-reading', title: 'Reading it', phase: 'Add your policy' },
-    { slug: '08-confirm', title: 'Confirm what we read', phase: 'Add your policy' },
-    { slug: '09-plain-terms', title: 'Your policy, in plain terms', phase: 'Add your policy' },
-    { slug: '10-hospital', title: 'Choose the hospital', phase: 'Check an admission' },
-    { slug: '11-admission', title: 'Start an admission', phase: 'Check an admission' },
-    { slug: '12-verdict', title: 'The verdict', phase: 'Check an admission' },
-    { slug: '13-next-steps', title: 'What to do now', phase: 'Check an admission' },
-    { slug: '14-journey', title: 'The journey', phase: 'Through the stay' },
-    { slug: '15-settlement', title: 'Settlement', phase: 'Through the stay' }
+    { slug: '07-multi-policy', title: 'Multiple policies, one estimate', phase: 'Add your policy' },
+    { slug: '08-reading', title: 'Reading it', phase: 'Add your policy' },
+    { slug: '09-confirm', title: 'Confirm what we read', phase: 'Add your policy' },
+    { slug: '10-plain-terms', title: 'Your policy, in plain terms', phase: 'Add your policy' },
+    { slug: '11-lineage', title: 'Where this number comes from', phase: 'Add your policy' },
+    { slug: '12-hospital', title: 'Choose the hospital', phase: 'Check an admission' },
+    { slug: '13-admission', title: 'Start an admission', phase: 'Check an admission' },
+    { slug: '14-verdict', title: 'The verdict', phase: 'Check an admission' },
+    { slug: '15-next-steps', title: 'What to do now', phase: 'Check an admission' },
+    { slug: '16-journey', title: 'The journey', phase: 'Through the stay' },
+    { slug: '17-settlement', title: 'Settlement', phase: 'Through the stay' },
+    { slug: '18-tpa-desk', title: 'Hospital / TPA desk view', phase: 'Through the stay' }
   ];
 
   // Screens the code has to recognise by name. Indices shift whenever a screen is
@@ -47,6 +50,11 @@
 
   var WORKED_CASE = { roomRatePerDay: 8000, days: 5 };
 
+  // Screen 07 — a personal super-top-up layered over the employer policy: it
+  // pays the employer settlement's residual shortfall above this deductible,
+  // capped at its own sum insured. Figures flow through E.combinePolicies().
+  var TOPUP = { sumInsured: 500000, deductible: 50000 };
+
   function seedState() {
     return {
       mobile: '',
@@ -56,6 +64,7 @@
       patientAge: '',
       abhaId: '',
       sample: 'A',
+      topUpOn: false,
       fileName: null,
       readingDone: false,
       resendStarted: false,
@@ -290,7 +299,7 @@
 
     $('callout-text').textContent = buildCallout(res);
 
-    if (at('12-verdict')) {
+    if (at('14-verdict')) {
       $('v-live').textContent =
         'Insurer pays ' + fmt(res.insurerPays) + '. You pay ' + fmt(res.shortfall) + '.';
     }
@@ -400,6 +409,100 @@
     $('c-diff').textContent = fmt(res.shortfall - est);
   }
 
+  // Screen 07 — layer the personal top-up over the employer settlement. The
+  // employer figure is the same res the verdict uses; the combined figure comes
+  // from E.combinePolicies() so no rupee is computed in app.js.
+  function paintMultiPolicy(res) {
+    var youEl = $('mp-you');
+    if (!youEl) { return; }
+    var employerPays = res.insurerPays;
+    var topUpPays = 0;
+    var youNow = res.shortfall;
+    if (st.topUpOn) {
+      var c = E.combinePolicies(res, TOPUP);
+      topUpPays = c.topUpPays;
+      youNow = c.combinedShortfall;
+    }
+    youEl.textContent = fmt(youNow);
+    $('mp-employer').textContent = fmt(employerPays);
+    $('mp-topup').textContent = st.topUpOn ? fmt(topUpPays) : '—';
+    $('mp-combined').textContent = fmt(employerPays + topUpPays);
+    var note = $('mp-note');
+    if (note) {
+      note.textContent = st.topUpOn
+        ? 'Employer policy pays ' + fmt(employerPays) + '. The personal top-up absorbs ' +
+          fmt(topUpPays) + ' of the remaining gap above its ' + fmt(TOPUP.deductible) +
+          ' deductible, so ' + fmt(youNow) + ' is left for you.'
+        : 'Employer policy only — ' + fmt(youNow) + ' is yours. Add the personal top-up to layer a second source over the same admission.';
+    }
+    if (at('07-multi-policy')) {
+      var live = $('mp-live');
+      if (live) {
+        live.textContent = 'With ' + (st.topUpOn ? 'both policies' : 'the employer policy only') +
+          ', you pay ' + fmt(youNow) + '.';
+      }
+    }
+  }
+
+  function syncMultiPolicy() {
+    var chip = $('mp-chip-topup');
+    if (!chip) { return; }
+    chip.setAttribute('aria-pressed', st.topUpOn ? 'true' : 'false');
+  }
+
+  // Screen 11 — the ₹5,000/day figure as a clause-to-rupee chain. The result is
+  // E.roomRentLineage(), the same arithmetic screen 10 and the verdict use.
+  function paintLineage() {
+    var result = $('lin-result');
+    if (!result) { return; }
+    var si = st.policy.sumInsured;
+    var cap = st.policy.roomCapPct;
+    var lin = E.roomRentLineage(si, cap);
+    var capText = Math.round(cap * 100) / 100;
+    if (lin.hasCap) {
+      $('lin-clause').textContent =
+        '“eligible room charges shall not exceed ' + capText + ' percent (' + capText +
+        '%) of the Sum Insured per day”';
+      $('lin-rule').textContent = 'ROOM_RENT_LIMIT = ' + capText + '% of sum insured, per day';
+      $('lin-formula').textContent = 'eligible / day = sum insured × (' + capText + ' ÷ 100)';
+      $('lin-calc').textContent = fmt(si) + ' × ' + capText + '%';
+      result.textContent = fmt(lin.eligiblePerDay);
+      $('lin-result-cap').textContent = 'eligible room rent, per day';
+    } else {
+      $('lin-clause').textContent =
+        '“no ceiling is placed on eligible room charges under this policy”';
+      $('lin-rule').textContent = 'ROOM_RENT_LIMIT = none';
+      $('lin-formula').textContent = 'eligible / day = unlimited';
+      $('lin-calc').textContent = 'no cap to apply';
+      result.textContent = 'No daily limit';
+      $('lin-result-cap').textContent = 'this policy has no room-rent clause';
+    }
+  }
+
+  // Screen 18 — the same Sample A settlement, addressed to the admissions desk.
+  // Every figure is the res the patient-facing verdict already produced.
+  function paintTpaDesk(res) {
+    var el = $('tpa-insurer');
+    if (!el) { return; }
+    el.textContent = fmt(res.insurerPays);
+    $('tpa-patient').textContent = fmt(res.shortfall);
+    $('tpa-billed').textContent = fmt(res.totalBilled);
+    $('tpa-hospital').textContent = st.admission.hospital;
+    $('tpa-city').textContent = st.admission.city;
+    $('tpa-eligible').textContent =
+      res.eligiblePerDay === Infinity ? 'No daily limit' : fmt(res.eligiblePerDay);
+    $('tpa-ratio').textContent =
+      st.policy.roomCapPct > 0 ? pct(res.coverageRatio) : 'n/a — no cap';
+    var rule = $('tpa-rule');
+    if (rule) {
+      rule.textContent = st.policy.roomCapPct > 0
+        ? 'ROOM_RENT_LIMIT ' + (Math.round(st.policy.roomCapPct * 100) / 100) + '% of ' +
+          fmt(st.policy.sumInsured) + ' = ' + fmt(res.eligiblePerDay) + ' eligible/day; the ' +
+          'proportionate deduction follows from the ' + fmt(st.admission.roomRatePerDay) + ' room rate.'
+        : 'No room-rent cap on this policy, so no proportionate deduction arises at settlement.';
+    }
+  }
+
   function syncControls() {
     var room = $('v-room');
     if (!room) { return; }
@@ -429,12 +532,16 @@
     paintActions(res);
     paintSegments(res);
     paintSettlement(res);
+    paintMultiPolicy(res);
+    paintLineage();
+    paintTpaDesk(res);
   }
 
   function recalcAll() {
     paintPolicyDependents();
     syncControls();
     syncSampleChips();
+    syncMultiPolicy();
     syncHospital();
     syncAdmissionFields();
   }
@@ -536,6 +643,9 @@
     paintActions(res);
     paintSegments(res);
     paintSettlement(res);
+    paintMultiPolicy(res);
+    paintLineage();
+    paintTpaDesk(res);
   }
 
   function startResendCountdown() {
@@ -642,12 +752,12 @@
 
   function render(i) {
     currentIndex = i;
-    if (at('12-verdict') && !st.snapshot) {
+    if (at('14-verdict') && !st.snapshot) {
       captureSnapshot();
     }
     showTile(i);
     updateChrome(i);
-    if (at('07-reading')) {
+    if (at('08-reading')) {
       startExtract();
     } else {
       stopExtract();
@@ -850,26 +960,39 @@
       $('file-chosen-name').textContent = name + ' \u00B7 kept on this device only';
     }
     exclusiveSelect($('sample-chips'), 'data-sample', applySample);
-    $('policy-continue').addEventListener('click', function () { goto(6); });
+    $('policy-continue').addEventListener('click', function () { goto('07-multi-policy'); });
+
+    // Screen 07 — the top-up chip toggles a second coverage source on and off.
+    var mpTopUp = $('mp-chip-topup');
+    if (mpTopUp) {
+      mpTopUp.addEventListener('click', function () {
+        st.topUpOn = !st.topUpOn;
+        syncMultiPolicy();
+        paintMultiPolicy(computeResult());
+      });
+    }
+    $('multi-continue').addEventListener('click', function () { goto('08-reading'); });
 
     $('extract-skip').addEventListener('click', function () {
       finishExtract();
-      goto(7);
+      goto('09-confirm');
     });
-    $('extract-continue').addEventListener('click', function () { goto(7); });
+    $('extract-continue').addEventListener('click', function () { goto('09-confirm'); });
 
     wireConfirmEdits();
-    $('confirm-continue').addEventListener('click', function () { goto(8); });
+    $('confirm-continue').addEventListener('click', function () { goto('10-plain-terms'); });
 
     $('wording-toggle').addEventListener('click', function () {
       var w = $('wording');
       w.hidden = !w.hidden;
       this.setAttribute('aria-expanded', w.hidden ? 'false' : 'true');
     });
-    $('plain-continue').addEventListener('click', function () { goto('10-hospital'); });
+    $('plain-continue').addEventListener('click', function () { goto('11-lineage'); });
+
+    $('lineage-continue').addEventListener('click', function () { goto('12-hospital'); });
 
     exclusiveSelect($('hosp-list'), 'data-hosp', applyHospital);
-    $('hospital-continue').addEventListener('click', function () { goto('11-admission'); });
+    $('hospital-continue').addEventListener('click', function () { goto('13-admission'); });
 
     // Hospital and city are derived from the screen-10 pick, so they are read-only here;
     // the "Change" link is the only way to alter them.
@@ -894,7 +1017,7 @@
     });
     $('admission-check').addEventListener('click', function () {
       captureSnapshot();
-      goto('12-verdict');
+      goto('14-verdict');
     });
 
     bindPair('v-room', 'v-room-n', function (v) { st.admission.roomRatePerDay = v; });

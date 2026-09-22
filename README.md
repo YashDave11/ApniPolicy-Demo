@@ -1,8 +1,9 @@
 # Apni Policy — product walkthrough demo
 
-A static, fifteen-screen walkthrough of **Apni Policy** ("See your coverage. Know your
-path."), a coverage-aware admission intelligence prototype built for the GE HealthCare
-Precision Care Challenge 2026, Problem Statement 4. Every screen is real, interactive HTML —
+A static, eighteen-screen walkthrough of **Apni Policy** ("See your coverage. Know your
+path."), a coverage-aware admission intelligence prototype built for **Smart India Hackathon
+2026** — Problem Statement **SIH26198**, Theme MedTech / BioTech / HealthTech, PS Category
+Software, by Team **Bit BanditX** (Team ID 142665). Every screen is real, interactive HTML —
 no screenshots, no framework, no build step, no network requests.
 
 ## How to open it
@@ -19,14 +20,14 @@ assets/favicon.svg    the mark: ink tile, white A, one bar — two shapes so it 
 assets/tokens.css     :root tokens and typography utility classes, nothing else
 assets/styles.css     layout, tiles, nav bars, phone frame, in-phone components
 assets/constellation.js  the light-mode monochrome mesh background (canvas, no DOM reads)
-assets/engine.js      pure rules engine + roomBySegments() + runSelfTest() (no DOM access)
+assets/engine.js      pure rules engine + roomBySegments() + combinePolicies() + roomRentLineage() + runSelfTest() (no DOM access)
 assets/app.js         hash routing, screen switching, control binding, rendering, state
 ```
 
 `engine.js` does arithmetic only; `app.js` does no arithmetic. The split mirrors the product's
 claim that a deterministic engine owns every rupee and nothing else touches a number.
 
-## The fifteen screens
+## The eighteen screens
 
 Four phases · Get set up · Add your policy · Check an admission · Through the stay
 
@@ -41,18 +42,21 @@ tile is transparent over the white mesh, so the column now reads as history, not
 | 04 | Consent | tile-2 (dark) | three individually-stated DPDP purposes, none pre-ticked, third genuinely optional, withdrawal link |
 | 05 | Who you are admitting | canvas | relationship chips, patient name/age, optional ABHA ID with disclosure |
 | 06 | Add the policy | parchment | working drag-and-drop and file input, three recomputing sample chips (A preselected) |
-| 07 | Reading it | tile-1 (dark) | determinate progress bar (~2.5s), fields appearing one by one, Skip link, instant under reduced motion |
-| 08 | Confirm what we read | canvas | editable extraction rows, two low-confidence flags, edits recompute everything downstream |
-| 09 | Your policy, in plain terms | parchment | first derived figure (₹5,000 = engine, not policy text), model-written cards each carrying the boundary notice, exact-wording extract |
-| 10 | Choose a hospital | parchment | four selectable hospitals with per-day room rates; the pick writes name, city and rate into state, so the estimate, verdict, journey and settlement all move with it; a stated warning that the list is invented and not a network lookup |
-| 11 | Start an admission | canvas | hospital/city read-only (carried from 10, with a Change link back); procedure/room/rate/LOS inputs; estimate row rebuilt by the engine (₹2,90,000) |
-| 12 | The verdict | tile-1 (dark) | sliders in the narrative column drive live recomputation in the phone; ratio strip speaks in words at 100%; settlement table; cause-attributing callout; aria-live summary |
-| 13 | What to do now | canvas | three action cards whose impact figures recompute from the same engine call as screen 12 |
-| 14 | The journey | parchment | four-checkpoint timeline; mid-stay room change computed per day-segment, not retroactively |
-| 15 | Settlement | tile-3 (dark) | final figures, estimated-vs-actual comparison (engine run twice), honest limits, national statistics with sources |
+| 07 | Multiple policies, one estimate | canvas | employer policy plus a toggleable personal top-up; the combined figure is `combinePolicies()` layering the top-up over the same admission above a deductible; aria-live announces the recompute |
+| 08 | Reading it | tile-1 (dark) | determinate progress bar (~2.5s), fields appearing one by one, Skip link, instant under reduced motion |
+| 09 | Confirm what we read | canvas | editable extraction rows, two low-confidence flags, edits recompute everything downstream |
+| 10 | Your policy, in plain terms | parchment | first derived figure (₹5,000 = engine, not policy text), model-written cards each carrying the boundary notice, exact-wording extract |
+| 11 | Where this number comes from | canvas | clause → structured rule → formula → calculation → rupee chain for the ₹5,000/day figure, `roomRentLineage()` output linked by ink connectors; moves with the sum insured/cap upstream |
+| 12 | Choose a hospital | parchment | four selectable hospitals with per-day room rates; the pick writes name, city and rate into state, so the estimate, verdict, journey and settlement all move with it; a stated warning that the list is invented and not a network lookup |
+| 13 | Start an admission | canvas | hospital/city read-only (carried from 12, with a Change link back); procedure/room/rate/LOS inputs; estimate row rebuilt by the engine (₹2,90,000) |
+| 14 | The verdict | tile-1 (dark) | sliders in the narrative column drive live recomputation in the phone; ratio strip speaks in words at 100%; settlement table; cause-attributing callout; aria-live summary |
+| 15 | What to do now | canvas | three action cards whose impact figures recompute from the same engine call as screen 14 |
+| 16 | The journey | parchment | four-checkpoint timeline; mid-stay room change computed per day-segment, not retroactively |
+| 17 | Settlement | tile-3 (dark) | final figures, estimated-vs-actual comparison (engine run twice), honest limits, national statistics with sources |
+| 18 | Hospital / TPA desk view | canvas | the same Sample A settlement re-addressed to the admissions desk — insurer payment, patient exposure and the room-rent rule, all identical engine outputs; kept inside the phone frame so tokens and the entrance animation stay intact |
 
 Navigation works four ways: step dots, Back/Continue, `←`/`→` keys (ignored while typing),
-and deep links such as `#/12-verdict`.
+and deep links such as `#/14-verdict`.
 
 ## The interface: monochrome, light, one accent that is black
 
@@ -130,8 +134,11 @@ eligible room rent ₹5,000/day (derived, not extracted); coverage ratio 62.5%; 
 ₹15,000; protected-head carve-out worth ₹37,500 when toggled; Sample B (₹10,00,000 at 2%)
 yields ratio 100% and shortfall ₹0; Sample C carries no cap and the UI says the clause does
 not apply; sum-insured-exhaustion case attributes ₹70,000 separately from deduction losses;
-per-day segment case pays ₹21,000 of ₹30,000 billed. All eight checks log PASS in the console
-on load (`runSelfTest()`).
+per-day segment case pays ₹21,000 of ₹30,000 billed; the multi-policy layer (`combinePolicies()`)
+has a ₹5,00,000 personal top-up absorb ₹21,250 of Sample A's ₹71,250 gap above a ₹50,000
+deductible, leaving ₹50,000 for the patient; the room-rent lineage (`roomRentLineage()`) returns
+the same ₹5,000/day the verdict uses. All ten checks log PASS in the console on load
+(`runSelfTest()`, invoked once when the engine loads in the browser).
 
 One error was corrected rather than copied: source material stating that a ₹50,00,000 policy
 at a 1% cap yields ₹5,000/day is arithmetically wrong (that is ₹50,000/day). This demo uses
