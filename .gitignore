@@ -1,5 +1,9 @@
-# Recording material, not part of the deployed demo.
+# Recording material and internal prompts, not part of the deployed demo.
 VIDEO-SCRIPT.txt
+RECORDING-SCRIPT.txt
+VOICEOVER-SCRIPT.txt
+SLIDE-CUE-SHEET.txt
+WALKTHROUGH-EDIT-PROMPT.md
 
 # Local verification and OS noise
 _probe.*

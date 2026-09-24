@@ -147,20 +147,10 @@ button:not(:disabled):active{transform:scale(0.96)}
 }
 .tile--phone-left .tile-inner{flex-direction:row-reverse}
 
-/* staggered entrance: narrative rises, phone follows */
-.tile.enter .narrative > *{animation:riseIn 620ms var(--ease-out) both}
-.tile.enter .narrative > *:nth-child(1){animation-delay:20ms}
-.tile.enter .narrative > *:nth-child(2){animation-delay:70ms}
-.tile.enter .narrative > *:nth-child(3){animation-delay:120ms}
-.tile.enter .narrative > *:nth-child(4){animation-delay:170ms}
-.tile.enter .narrative > *:nth-child(n+5){animation-delay:210ms}
-.tile.enter .phone-col{animation:phoneIn 760ms var(--ease-out) both;animation-delay:90ms}
+/* staggered entrance is driven by GSAP (playEntrance in app.js); riseIn below
+   is still used by smaller CSS-only reveals (extract list, control panel) */
 @keyframes riseIn{
   from{opacity:0;transform:translateY(14px)}
-  to{opacity:1;transform:none}
-}
-@keyframes phoneIn{
-  from{opacity:0;transform:translateY(22px) scale(.985)}
   to{opacity:1;transform:none}
 }
 
@@ -388,6 +378,16 @@ input[type="number"].input{-moz-appearance:textfield;appearance:textfield}
 .card-row:last-child{padding-bottom:0}
 .card-row + .card-row{border-top:1px solid var(--divider-soft)}
 
+.abdm-consent{margin-top:12px}
+.abdm-consent:not([hidden]){animation:riseIn 300ms var(--ease-out) both}
+.abdm-consent .plain-head{margin-bottom:6px}
+.abdm-crow{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid var(--divider-soft)}
+.abdm-crow:first-of-type{border-top:0}
+.abdm-ckey{font-size:13px;letter-spacing:-0.2px;color:var(--ink-80)}
+.abdm-cval{font-size:13px;letter-spacing:-0.2px;color:var(--ink);text-align:right}
+.abdm-consent-cta{display:flex;align-items:center;gap:16px;margin-top:12px}
+.abdm-consent-cta .btn-primary{flex:0 0 auto;height:40px;font-size:15px;padding:0 20px}
+
 .consent-item{display:flex;gap:12px;align-items:flex-start}
 .consent-item input[type="checkbox"]{
   width:22px;height:22px;accent-color:var(--primary);flex:0 0 auto;margin-top:2px;cursor:pointer;
@@ -417,6 +417,16 @@ input[type="number"].input{-moz-appearance:textfield;appearance:textfield}
 
 .progress-track{height:2px;border-radius:var(--r-pill);background:var(--divider-soft);overflow:hidden;margin:16px 0 14px}
 .progress-fill{height:100%;width:0%;background:var(--ink);border-radius:inherit;transition:width 200ms var(--ease)}
+.ocr-doc{position:relative;height:92px;border:1px solid var(--divider-soft);border-radius:var(--r-sm);background:var(--canvas);overflow:hidden;padding:13px 14px}
+.ocr-lines span{display:block;height:6px;border-radius:2px;background:var(--divider-soft);margin-bottom:8px}
+.ocr-lines span:nth-child(1){width:72%}
+.ocr-lines span:nth-child(2){width:90%}
+.ocr-lines span:nth-child(3){width:60%}
+.ocr-lines span:nth-child(4){width:84%}
+.ocr-lines span:nth-child(5){width:48%}
+.ocr-lines span:nth-child(6){width:78%}
+.ocr-scanline{position:absolute;left:0;right:0;top:0;height:2px;background:var(--ink);opacity:.55;box-shadow:0 0 8px rgba(10,10,10,.25);animation:ocrScan 2.4s var(--ease-out) infinite}
+@keyframes ocrScan{0%{top:8%}50%{top:90%}100%{top:8%}}
 .extract-list{list-style:none}
 .extract-list li{
   display:flex;align-items:center;gap:8px;
@@ -435,6 +445,9 @@ li.pending{visibility:hidden}
 }
 .confirm-reason{font-size:12px;line-height:1.4;letter-spacing:-0.12px;color:var(--legal);margin-top:2px}
 .confirm-value{font-variant-numeric:tabular-nums;font-size:14px;letter-spacing:-0.224px;color:var(--ink);margin-top:2px}
+.confirm-conf{margin-top:7px}
+.confirm-conf .ratio-track{max-width:160px}
+.confirm-clause{font-size:12px;line-height:1.4;letter-spacing:-0.12px;color:var(--legal);margin-top:4px}
 .confirm-edit{
   flex:0 0 auto;background:none;border:0;cursor:pointer;padding:2px 0;
   color:var(--ink);font-size:14px;letter-spacing:-0.224px;text-decoration:underline;
@@ -528,6 +541,8 @@ li.pending{visibility:hidden}
 .hosp-main{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1 1 auto}
 .hosp-name{font-size:14px;font-weight:600;letter-spacing:-0.224px;color:var(--ink)}
 .hosp-meta{font-size:11px;letter-spacing:-0.07px;color:var(--legal)}
+.hosp-outcome{font-size:11px;letter-spacing:-0.07px;color:var(--ink-80);margin-top:3px}
+.hosp-outcome .num{font-weight:600;color:var(--ink)}
 .hosp-rate{flex:none;font-size:14px;font-weight:600;letter-spacing:-0.224px;color:var(--ink)}
 .hosp-unit{font-size:11px;font-weight:400;color:var(--legal)}
 
@@ -566,6 +581,45 @@ li.pending{visibility:hidden}
 .notif-title{font-size:14px;font-weight:600;letter-spacing:-0.224px;color:var(--ink);margin-bottom:4px}
 .notif-body{font-size:14px;line-height:1.5;letter-spacing:-0.224px;color:var(--ink-80)}
 .notif-body .num{color:var(--ink)}
+
+/* Room-type digital twin cards */
+.twin-cards{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}
+.twin-card{
+  display:block;width:100%;text-align:left;cursor:pointer;
+  background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);
+  padding:12px 14px;transition:border-color 200ms var(--ease-out),background 200ms var(--ease-out);
+}
+.twin-card.is-active{border-color:var(--ink);background:var(--pearl)}
+.twin-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.twin-label{font-size:14px;font-weight:600;letter-spacing:-0.224px;color:var(--ink)}
+.twin-rate{font-size:13px;color:var(--ink-80)}
+.twin-card .ratio-track{margin:9px 0 7px}
+.twin-foot{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.twin-ratio{font-size:13px;letter-spacing:-0.224px;color:var(--ink-80)}
+.twin-you{font-size:13px;letter-spacing:-0.224px;color:var(--ink-80)}
+.twin-you .num{font-weight:600;color:var(--ink)}
+
+/* Multilingual explanation */
+.lang-chips{margin-bottom:14px}
+.ml-sentence{font-size:15px;line-height:1.55;letter-spacing:-0.24px;color:var(--ink);margin-bottom:12px}
+.ml-sentence .num{font-weight:600}
+
+/* Claim memory */
+.cm-headline{margin-bottom:14px}
+.cm-big{display:block;font-size:40px;line-height:1.05;font-weight:600;letter-spacing:-1px;color:var(--ink)}
+.cm-cap{display:block;font-size:13px;line-height:1.4;letter-spacing:-0.2px;color:var(--ink-80);margin-top:4px}
+.cm-list{list-style:none;margin:14px 0 0;padding:0}
+.cm-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:8px 0;border-top:1px solid var(--divider-soft)}
+.cm-pair{font-size:13px;letter-spacing:-0.2px;color:var(--ink-80)}
+.cm-pair .num{color:var(--ink)}
+.cm-err{font-size:12px;letter-spacing:-0.16px;color:var(--ink-80);white-space:nowrap}
+.cm-row.is-within .cm-err{font-weight:600;color:var(--ink)}
+
+/* Interoperability diagram */
+.io-stage{display:flex;flex-direction:column;align-items:center;gap:14px;padding:8px 0}
+.io-diagram{width:100%;max-width:320px;height:auto;color:var(--ink)}
+.io-label{font-size:15px;font-weight:600;letter-spacing:-0.24px;fill:var(--ink)}
+.io-sub{font-size:12px;letter-spacing:-0.16px;fill:var(--ink-80)}
 
 .settled-row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 0}
 .settled-row + .settled-row{border-top:1px solid var(--divider-soft)}

@@ -152,6 +152,85 @@
     return o;
   }
 
+  // Run computeCoverage() for the worked case with a different daily room rate
+  // (and optional other admission overrides). Shared by the room-type and
+  // hospital comparisons so neither forks the deduction math.
+  function scenarioFor(roomPerDay, baseOverrides) {
+    var ov = {};
+    if (baseOverrides) {
+      for (var k in baseOverrides) { ov[k] = baseOverrides[k]; }
+    }
+    ov.roomRatePerDay = roomPerDay;
+    return computeCoverage(cloneMerge(ov));
+  }
+
+  // Financial Digital Twin: the same admission priced across room categories.
+  // A costlier room does not buy more cover once the per-day cap bites, so the
+  // ratio falls and youPay rises as the room rate climbs above eligiblePerDay.
+  function roomTypeScenarios(roomTypes, baseOverrides) {
+    var types = roomTypes || [
+      { label: 'General ward', roomPerDay: 3000 },
+      { label: 'Twin-sharing', roomPerDay: 5000 },
+      { label: 'Private room', roomPerDay: 8000 }
+    ];
+    var out = [];
+    for (var i = 0; i < types.length; i++) {
+      var r = scenarioFor(types[i].roomPerDay, baseOverrides);
+      out.push({
+        label: types[i].label,
+        roomPerDay: types[i].roomPerDay,
+        eligiblePerDay: r.eligiblePerDay,
+        ratio: r.coverageRatio,
+        insurerPays: r.insurerPays,
+        youPay: r.shortfall
+      });
+    }
+    return out;
+  }
+
+  // The same admission priced at every hospital in the picker, so all rows show
+  // a real, comparable outcome — not just the one that happens to be selected.
+  function hospitalScenarios(hospitals, baseOverrides) {
+    var out = [];
+    for (var i = 0; i < hospitals.length; i++) {
+      var h = hospitals[i];
+      var r = scenarioFor(h.roomPerDay, baseOverrides);
+      out.push({
+        key: h.key,
+        name: h.name,
+        city: h.city,
+        roomPerDay: h.roomPerDay,
+        eligiblePerDay: r.eligiblePerDay,
+        ratio: r.coverageRatio,
+        insurerPays: r.insurerPays,
+        youPay: r.shortfall
+      });
+    }
+    return out;
+  }
+
+  // Continuous claim memory: how close past estimates landed to the actual
+  // settled figure. Pure summary over a synthetic history; no forecasting.
+  function claimMemoryInsight(history, band) {
+    var b = band > 0 ? band : 0.1;
+    var n = history.length;
+    var sumErr = 0;
+    var within = 0;
+    for (var i = 0; i < n; i++) {
+      var e = history[i].estimate;
+      var a = history[i].actual;
+      var pct = a !== 0 ? Math.abs(a - e) / Math.abs(a) : 0;
+      sumErr += pct;
+      if (pct <= b) { within++; }
+    }
+    return {
+      count: n,
+      meanAbsPctError: n ? sumErr / n : 0,
+      withinBandRate: n ? within / n : 0,
+      band: b
+    };
+  }
+
   function approx(actual, expected) {
     return Math.abs(actual - expected) < 0.000001;
   }
@@ -321,6 +400,49 @@
       return f;
     });
 
+    check('room-type scenarios - cap bites as room climbs', function () {
+      var f = [];
+      var rows = roomTypeScenarios();
+      if (rows.length !== 3) { f.push('expected 3 rows, got ' + rows.length); }
+      expect('general ratio', rows[0].ratio, 1, f);
+      expect('general youPay', rows[0].youPay, 0, f);
+      expect('twin ratio', rows[1].ratio, 1, f);
+      expect('private ratio', rows[2].ratio, 0.625, f);
+      expect('private youPay', rows[2].youPay, 71250, f);
+      if (!(rows[2].ratio < rows[0].ratio)) {
+        f.push('private ratio should be below general ratio');
+      }
+      return f;
+    });
+
+    check('hospital scenarios - every row a real outcome', function () {
+      var f = [];
+      var rows = hospitalScenarios([
+        { key: 'a', name: 'Alpha', city: 'Pune', roomPerDay: 5000 },
+        { key: 'b', name: 'Beta', city: 'Delhi', roomPerDay: 8000 }
+      ]);
+      expect('within-cap youPay', rows[0].youPay, 0, f);
+      expect('over-cap youPay', rows[1].youPay, 71250, f);
+      expect('over-cap insurerPays', rows[1].insurerPays, 218750, f);
+      if (rows[1].key !== 'b' || rows[1].city !== 'Delhi') {
+        f.push('hospital identity not carried through');
+      }
+      return f;
+    });
+
+    check('claim memory - mean error and within-band rate', function () {
+      var f = [];
+      var m = claimMemoryInsight([
+        { estimate: 90, actual: 100 },
+        { estimate: 100, actual: 100 }
+      ]);
+      expect('count', m.count, 2, f);
+      expect('meanAbsPctError', m.meanAbsPctError, 0.05, f);
+      expect('withinBandRate', m.withinBandRate, 1, f);
+      expect('band default', m.band, 0.1, f);
+      return f;
+    });
+
     var allPass = true;
     for (var i = 0; i < results.length; i++) {
       var t = results[i];
@@ -338,6 +460,9 @@
     roomBySegments: roomBySegments,
     combinePolicies: combinePolicies,
     roomRentLineage: roomRentLineage,
+    roomTypeScenarios: roomTypeScenarios,
+    hospitalScenarios: hospitalScenarios,
+    claimMemoryInsight: claimMemoryInsight,
     formatINR: formatINR,
     formatPct: formatPct,
     DEMO_CASE: DEMO_CASE,
